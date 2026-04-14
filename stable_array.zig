@@ -280,7 +280,7 @@ pub fn StableArrayAligned(comptime T: type, comptime _alignment: u29) type {
                         self.items.ptr = @alignCast(@ptrCast(addr));
                         self.items.len = 0;
                     } else {
-                        const prot: u32 = std.c.PROT.NONE;
+                        const prot: std.c.PROT = .{};
                         const map: std.c.MAP = .{
                             .ANONYMOUS = true,
                             .TYPE = .PRIVATE,
@@ -304,7 +304,7 @@ pub fn StableArrayAligned(comptime T: type, comptime _alignment: u29) type {
                     const region_begin: [*]u8 = @ptrCast(self.items.ptr);
                     const remap_region_begin: [*]u8 = region_begin + current_capacity_bytes;
 
-                    const prot: u32 = std.c.PROT.READ | std.c.PROT.WRITE;
+                    const prot: std.c.PROT = .{ .READ = true, .WRITE = true };
                     const map: std.c.MAP = .{
                         .ANONYMOUS = true,
                         .TYPE = .PRIVATE,
